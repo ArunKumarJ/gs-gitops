@@ -4,44 +4,40 @@ metadata:
   name: sample-app
   namespace: {{ .Values.namespace }}
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: mvc
-  replicas: {{ .Values.web.image.replicaCount }}
+        app: sample-app
+        id: "0"
   template:
     metadata:
       labels:
-        app: mvc
+        app: sample-app
+        id: "0"
     spec:
       containers:
-      - name: mvc
-        image: {{ .Values.web.image.dockerHubId }}/{{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+      - name: sample-app
+        image: chikucute99/sample-app:latest
         env:
           - name: redis_host
             valueFrom:
               configMapKeyRef:
                 name: sample-app-configmap
-                key: redis-host
+                key: redis-host                             
         ports:
-        - containerPort: {{ .Values.web.port }}
-        resources:
-          limits:
-            cpu: "1"
-            memory: "200Mi"
-          requests:
-            cpu: "0.1"
+        - containerPort: 1982
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sample-app-service
+  name: sample-app
   namespace: {{ .Values.namespace }}
   labels:
     name: sample-app
 spec:
   ports:
-    - port: {{ .Values.web.port }}
-      targetPort: {{ .Values.web.port }}
+    - port: 1982
+      targetPort: 1982
       protocol: TCP
   selector:
     app: sample-app
@@ -54,5 +50,6 @@ items:
   kind: ConfigMap
   metadata:
     name: sample-app-configmap
+	namespace: {{ .Values.namespace }}
   data:
-    redis-host: "redis-master.default.svc.cluster.local" 
+    redis-host: "redis-master.default.svc.cluster.local"  
