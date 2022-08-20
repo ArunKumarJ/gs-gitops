@@ -16,6 +16,12 @@ spec:
       containers:
       - name: mvc
         image: {{ .Values.web.image.dockerHubId }}/{{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+        env:
+          - name: redis_host
+            valueFrom:
+              configMapKeyRef:
+                name: sample-app-configmap
+                key: redis-host
         ports:
         - containerPort: {{ .Values.web.port }}
         resources:
@@ -38,3 +44,13 @@ spec:
     port: {{ .Values.web.port }}
     targetPort: {{ .Values.web.port }}
   type: LoadBalancer
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: sample-app-configmap
+  data:
+    redis-host: "redis-master" 
