@@ -31,18 +31,20 @@ spec:
           requests:
             cpu: "0.1"
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: mvc-service-helm
+  name: sample-app
   namespace: {{ .Values.namespace }}
+  labels:
+    name: sample-app
 spec:
-  selector:
-    app: mvc
   ports:
-  - protocol: TCP
-    port: {{ .Values.web.port }}
-    targetPort: {{ .Values.web.port }}
+    - port: 1982
+      targetPort: 1982
+      protocol: TCP
+  selector:
+    app: sample-app
   type: LoadBalancer
 ---
 apiVersion: v1
