@@ -9,7 +9,7 @@ web:
     name: sample-app
     tag: latest # #{Build.BuildId}#
     replicaCount: 1
-  port: 1981
+  port: 1982
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
