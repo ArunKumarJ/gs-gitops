@@ -53,4 +53,4 @@ items:
   metadata:
     name: sample-app-configmap
   data:
-    redis-host: "localhost" 
+    redis-host: "default.redis-master" 
