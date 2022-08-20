@@ -40,8 +40,8 @@ metadata:
     name: sample-app
 spec:
   ports:
-    - port: 1982
-      targetPort: 1982
+    - port: {{ .Values.web.port }}
+      targetPort: {{ .Values.web.port }}
       protocol: TCP
   selector:
     app: sample-app
